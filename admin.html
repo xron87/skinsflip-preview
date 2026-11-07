@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru" class="dark">
+<head>
+  <meta name="app-base" content="./">
+  <meta name="robots" content="noindex,nofollow">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="./assets/logo.svg">
+  <title>Админ Панель | SkinsFlip · Демо</title>
+  <link rel="stylesheet" href="./assets/tailwind.css">
+  <link href="./assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
+  <link href="./assets/vendor/manrope/index.css" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/app.css">
+  <link rel="stylesheet" href="./assets/preview.css">
+</head>
+<body class="bg-[#06080A] text-[#F0F6FC] min-h-screen flex flex-col justify-between">
+<aside class="preview-banner" aria-label="Демонстрационный стенд">
+  <div class="preview-banner-head"><span class="preview-pill">CLIENT PREVIEW · 1.3</span><p><strong>Можно смотреть и нажимать.</strong> Все профили, предметы и суммы вымышлены. Steam и выплаты не подключены.</p><details class="preview-guide"><summary>Что проверить?</summary><div><strong>Короткий маршрут</strong><ol><li>Переключите CS2, Dota 2 и Rust. Отметьте предметы, попробуйте поиск и сортировку.</li><li>Введите DEMO10: комиссия изменится с 15% до 5%. DEMO5 добавляет тестовые вращения.</li><li>Посмотрите профиль, колесо, розыгрыши и кассу. Профили A и B независимы.</li><li>Выберите «Закрытый», «Ошибка» или «Большой» для проверки состояния каталога.</li></ol><p>Демо-изменения сохраняются только в текущей вкладке. Реальные данные сюда вводить не нужно.</p></div></details></div>
+  <details class="preview-options" open><summary>Демо-профили и сценарии</summary><div class="preview-controls"><label>Профиль<select id="previewAccount"><option value="A">Демо A · администратор</option><option value="B">Демо B · пользователь</option><option value="guest">Гость</option></select></label><label>Инвентарь<select id="previewScenario"><option value="ready">Обычный</option><option value="slow">Медленная загрузка</option><option value="private">Закрытый</option><option value="empty">Пустой</option><option value="unpriced">Без цен</option><option value="partial">Частичный</option><option value="large">Большой · 124 позиции</option><option value="image-error">Ошибка изображения</option><option value="error">Ошибка Steam</option><option value="rate-limit">Лимит запросов · 429</option></select></label><button id="previewReset" type="button">Сбросить демо</button><a href="./admin.html">Панель администратора ↗</a></div></details>
+</aside>
+
+  <header class="sticky top-0 z-40 bg-[#0D1117]/90 backdrop-blur-md border-b border-[#21262D]">
+    <div class="max-w-7xl mx-auto px-4 py-3.5 flex items-center justify-between">
+      <a href="./" class="flex items-center gap-3 group">
+        <svg class="w-9 h-9 transition-transform group-hover:scale-110" viewBox="0 0 100 100" fill="none">
+          <rect width="100" height="100" rx="24" fill="#EF4444" fill-opacity="0.2" stroke="#EF4444" stroke-width="4"/>
+          <path d="M30 35L50 20L70 35V65L50 80L30 65V35Z" stroke="#EF4444" stroke-width="5"/>
+        </svg>
+        <span class="text-2xl font-black text-white">Skins<span class="text-red-500">Admin</span></span>
+      </a>
+      <a href="./" class="text-xs font-bold text-gray-400 hover:text-white transition-colors">На главный сайт</a>
+    </div>
+  </header>
+
+  <main id="adminMain" hidden class="max-w-7xl mx-auto px-4 py-8 flex-1 w-full space-y-6">
+    <div class="admin-heading"><div><span>УПРАВЛЕНИЕ САЙТОМ</span><h1>Панель администратора</h1><p>Показатели, пользователи, бонусы и события проекта.</p></div></div>
+    <nav class="admin-nav" aria-label="Разделы панели"><a href="#adminOverview">Обзор</a><a href="#adminIntegrationsSection">Интеграции</a><a href="#adminMarginForm">Комиссия</a><a href="#adminUsersSection">Пользователи</a><a href="#adminPromosSection">Промокоды</a><a href="#adminOperationsSection">Операции</a><a href="#adminTradesSection">Выкуп</a><a href="#adminWithdrawalsSection">Выводы</a><a href="#adminRafflesSection">Розыгрыши</a><a href="#adminAuditSection">Журнал</a><a href="#promoForm">Создать промокод</a><a href="#raffleForm">Создать розыгрыш</a></nav>
+    <section id="adminOverview" class="admin-panel"><div class="admin-section-head"><div><h2>Обзор проекта</h2><p>Показатели по данным сайта на текущий момент.</p></div><button type="button" id="adminRefresh">Обновить</button></div><div id="adminStats" class="admin-stats" aria-live="polite">Загрузка…</div></section>
+    <section id="adminIntegrationsSection" class="admin-panel"><div><h2>Состояние интеграций</h2><p>Результаты последних обращений этого процесса. Просмотр не отправляет запросы в Steam или к поставщикам цен.</p></div><div id="adminIntegrations" class="admin-list" aria-live="polite">Загрузка…</div></section>
+    <section class="admin-panel"><details class="admin-analytics-details"><summary>Активность за 14 дней</summary><p>Даты по времени базы данных. Бонусы — завершённые начисления промокодов и колеса, не выручка сайта.</p><div id="adminAnalytics" class="admin-analytics" aria-live="polite">Загрузка…</div></details></section>
+    <form id="adminMarginForm" class="admin-panel"><div><h2>Комиссия сайта</h2><p>Применяется к новым оценкам предметов. Скидка промокода вычитается в процентных пунктах; минимальная комиссия — 0%.</p></div><div class="admin-search"><label class="admin-margin-label">Комиссия, %<input id="adminMargin" type="number" min="0" max="100" step="0.01" required disabled></label><button type="submit" id="adminMarginSave" disabled>Сохранить</button></div><p id="adminMarginState" aria-live="polite">Загружаем настройку…</p></form>
+    <section id="adminUsersSection" class="admin-panel"><div><h2>Пользователи</h2><p>Поиск по имени или SteamID. Администраторов заблокировать нельзя.</p></div><form id="adminSearch" class="admin-operation-filter"><label>Имя или SteamID<input id="adminQuery" maxlength="80" placeholder="Имя или SteamID"></label><label>Статус<select id="adminUserStatus"><option value="">Все пользователи</option><option value="active">Активные</option><option value="banned">Заблокированные</option></select></label><button type="submit">Найти</button></form><div id="adminUsers" class="admin-list" aria-live="polite">Загрузка…</div><div class="admin-paging"><button type="button" id="adminPrev">Назад</button><span id="adminPage"></span><button type="button" id="adminNext">Далее</button></div><div id="adminUserDetails" class="admin-user-details" hidden aria-live="polite"></div></section>
+    <div class="admin-grid">
+      <section id="adminPromosSection" class="admin-panel"><div><h2>Промокоды</h2><p>Коды и количество активаций.</p></div><form id="adminPromoFilter" class="admin-operation-filter"><label>Код<input id="adminPromoQuery" maxlength="64" placeholder="Название промокода"></label><label>Статус<select id="adminPromoStatus"><option value="">Все промокоды</option><option value="active">Включённые</option><option value="inactive">Выключенные</option></select></label><button type="submit">Найти</button></form><div id="adminPromos" class="admin-list">Загрузка…</div><div class="admin-paging" data-admin-pager="promos"><button type="button" data-direction="prev" disabled>Назад</button><span>Страница 1</span><button type="button" data-direction="next" disabled>Далее</button></div><div id="adminPromoDetails" class="admin-user-details" hidden aria-live="polite"></div></section>
+      <section id="adminOperationsSection" class="admin-panel"><div><h2>Операции</h2><p>История записей баланса.</p></div><form id="adminOperationFilter" class="admin-operation-filter"><label>Пользователь<input id="adminOperationQuery" maxlength="80" placeholder="Имя или SteamID"></label><label>Тип операции<select id="adminOperationType"><option value="">Все операции</option><option value="PROMO">Промокоды</option><option value="WHEEL">Колесо</option></select></label><button type="submit">Найти</button></form><div id="adminOperations" class="admin-list">Загрузка…</div><div class="admin-paging" data-admin-pager="operations"><button type="button" data-direction="prev" disabled>Назад</button><span>Страница 1</span><button type="button" data-direction="next" disabled>Далее</button></div></section>
+      <section id="adminRafflesSection" class="admin-panel"><div><h2>Розыгрыши</h2><p>Розыгрыши и их результаты.</p></div><form id="adminRaffleFilter" class="admin-operation-filter"><label>Название или предмет<input id="adminRaffleQuery" maxlength="100" placeholder="Найти розыгрыш"></label><label>Статус<select id="adminRaffleStatus"><option value="">Все розыгрыши</option><option value="active">Активные</option><option value="processing">Ожидают завершения</option><option value="completed">Завершённые</option><option value="cancelled">Отменённые</option></select></label><button type="submit">Найти</button></form><div id="adminRaffles" class="admin-list">Загрузка…</div><div class="admin-paging" data-admin-pager="raffles"><button type="button" data-direction="prev" disabled>Назад</button><span>Страница 1</span><button type="button" data-direction="next" disabled>Далее</button></div><div id="adminRaffleDetails" class="admin-user-details" hidden aria-live="polite"></div></section>
+      <section id="adminAuditSection" class="admin-panel"><div><h2>Журнал управления</h2><p>Изменения комиссии, создание промокодов и розыгрышей, изменение статусов.</p></div><form id="adminAuditFilter" class="admin-search"><input id="adminAuditQuery" aria-label="Поиск по журналу" maxlength="100" placeholder="SteamID, промокод или код действия"><button type="submit">Найти</button></form><div id="adminAudit" class="admin-list">Загрузка…</div><div class="admin-paging" data-admin-pager="audit"><button type="button" data-direction="prev" disabled>Назад</button><span>Страница 1</span><button type="button" data-direction="next" disabled>Далее</button></div></section>
+    </div>
+    <div class="admin-grid">
+      <section id="adminTradesSection" class="admin-panel"><div><h2>Заявки на выкуп</h2><p>Записи в базе; обработка сделок пока не подключена.</p></div><form id="adminTradeFilter" class="admin-operation-filter"><label>Пользователь или номер<input id="adminTradeQuery" maxlength="80" placeholder="Имя, SteamID или номер"></label><label>Код статуса<input id="adminTradeStatus" maxlength="32" pattern="[A-Za-z0-9_]*" placeholder="Например, PENDING_TRADE"></label><button type="submit">Найти</button></form><div id="adminTrades" class="admin-list">Загрузка…</div><div class="admin-paging" data-admin-pager="trades"><button type="button" data-direction="prev" disabled>Назад</button><span>Страница 1</span><button type="button" data-direction="next" disabled>Далее</button></div></section>
+      <section id="adminWithdrawalsSection" class="admin-panel"><div><h2>Заявки на вывод</h2><p>Записи в базе; проведение выплат пока не подключено. Платёжные реквизиты здесь не отображаются.</p></div><form id="adminWithdrawalFilter" class="admin-operation-filter"><label>Пользователь или номер<input id="adminWithdrawalQuery" maxlength="80" placeholder="Имя, SteamID или номер"></label><label>Код статуса<input id="adminWithdrawalStatus" maxlength="32" pattern="[A-Za-z0-9_]*" placeholder="Например, PENDING"></label><button type="submit">Найти</button></form><div id="adminWithdrawals" class="admin-list">Загрузка…</div><div class="admin-paging" data-admin-pager="withdrawals"><button type="button" data-direction="prev" disabled>Назад</button><span>Страница 1</span><button type="button" data-direction="next" disabled>Далее</button></div></section>
+    </div>
+    <div class="admin-grid">
+      <form id="promoForm" class="admin-panel">
+        <div><h2>Новый промокод</h2><p>Награда будет доступна после активации кода.</p></div>
+        <label>Промокод<input type="text" id="newPromoCode" placeholder="BONUS2026" minlength="3" maxlength="64" pattern="[A-Za-z0-9_-]+" required></label>
+        <label>Тип награды<select id="newPromoType"><option value="SPINS">Вращения колеса</option><option value="MARGIN_DISCOUNT">Скидка на комиссию (п.п.)</option><option value="BALANCE">Баланс (₽)</option></select></label>
+        <p id="promoDiscountHint" class="admin-discount-hint" hidden>Скидка вычитается в процентных пунктах: например, комиссия 15% со скидкой 10 п.п. станет 5%.</p>
+        <div class="admin-fields"><label>Значение<input type="number" id="newPromoReward" placeholder="Например, 1" min="1" max="10000" step="1" required></label>
+        <label>Число активаций<input type="number" id="newPromoMaxUses" placeholder="Например, 100" min="1" max="100000" step="1" required></label></div>
+        <button type="submit">Создать промокод</button>
+      </form>
+      <form id="raffleForm" class="admin-panel">
+        <div><h2>Новый розыгрыш</h2><p>Дата окончания указывается по вашему местному времени.</p></div>
+        <label>Название<input id="raffleTitle" placeholder="Розыгрыш недели" maxlength="255" required></label>
+        <label>Название предмета<input id="raffleSkin" placeholder="Название скина" maxlength="255" required></label>
+        <label>Изображение<input type="url" id="raffleImage" placeholder="https://…" maxlength="1000" required></label>
+        <label>Окончание<input id="raffleDate" type="datetime-local" required></label>
+        <button type="submit">Создать розыгрыш</button>
+      </form>
+    </div>
+  </main>
+
+  <script src="./assets/preview.js" defer></script>
+  <script src="./assets/app.js" defer></script>
+  <script src="./assets/router.js" defer></script>
+</body>
+</html>

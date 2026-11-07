@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru" class="dark">
+<head>
+  <meta name="app-base" content="./">
+  <meta name="robots" content="noindex,nofollow">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="./assets/logo.svg">
+  <title>Авторизация | SkinsFlip · Демо</title>
+  <link rel="stylesheet" href="./assets/tailwind.css">
+  <link href="./assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
+  <link href="./assets/vendor/manrope/index.css" rel="stylesheet">
+  <style>
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-card { animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  </style>
+  <link rel="stylesheet" href="./assets/app.css">
+  <link rel="stylesheet" href="./assets/preview.css">
+</head>
+<body class="bg-[#06080A] text-[#F0F6FC] min-h-screen flex flex-col">
+<aside class="preview-banner" aria-label="Демонстрационный стенд">
+  <div class="preview-banner-head"><span class="preview-pill">CLIENT PREVIEW · 1.3</span><p><strong>Можно смотреть и нажимать.</strong> Все профили, предметы и суммы вымышлены. Steam и выплаты не подключены.</p><details class="preview-guide"><summary>Что проверить?</summary><div><strong>Короткий маршрут</strong><ol><li>Переключите CS2, Dota 2 и Rust. Отметьте предметы, попробуйте поиск и сортировку.</li><li>Введите DEMO10: комиссия изменится с 15% до 5%. DEMO5 добавляет тестовые вращения.</li><li>Посмотрите профиль, колесо, розыгрыши и кассу. Профили A и B независимы.</li><li>Выберите «Закрытый», «Ошибка» или «Большой» для проверки состояния каталога.</li></ol><p>Демо-изменения сохраняются только в текущей вкладке. Реальные данные сюда вводить не нужно.</p></div></details></div>
+  <details class="preview-options" open><summary>Демо-профили и сценарии</summary><div class="preview-controls"><label>Профиль<select id="previewAccount"><option value="A">Демо A · администратор</option><option value="B">Демо B · пользователь</option><option value="guest">Гость</option></select></label><label>Инвентарь<select id="previewScenario"><option value="ready">Обычный</option><option value="slow">Медленная загрузка</option><option value="private">Закрытый</option><option value="empty">Пустой</option><option value="unpriced">Без цен</option><option value="partial">Частичный</option><option value="large">Большой · 124 позиции</option><option value="image-error">Ошибка изображения</option><option value="error">Ошибка Steam</option><option value="rate-limit">Лимит запросов · 429</option></select></label><button id="previewReset" type="button">Сбросить демо</button><a href="./admin.html">Панель администратора ↗</a></div></details>
+</aside>
+
+  <main class="animate-card login-card max-w-md w-full bg-[#0D1117] p-8 rounded-3xl text-center border border-emerald-500/30 relative shadow-neon-glow space-y-6">
+    <div class="flex justify-center">
+      <img src="./assets/logo.svg" alt="" class="w-20 h-20">
+    </div>
+    <div>
+      <h1 class="text-2xl font-extrabold text-white">Вход в SkinsFlip</h1>
+      <p class="text-gray-400 text-xs mt-2">Войдите через Steam, чтобы открыть профиль и оценить предметы.</p>
+    </div>
+    <p id="loginAccountHint" class="login-account-hint" hidden></p>
+    <button onclick="loginWithSteam()" class="w-full py-4 px-6 bg-[#171a21] hover:bg-[#2a475e] text-white font-bold rounded-2xl border border-emerald-500/30 transition-all duration-300 flex items-center justify-center gap-3 shadow-lg hover:scale-[1.02] active:scale-[0.98] group">
+      <i class="fa-brands fa-steam text-2xl text-emerald-500 group-hover:scale-110 transition-transform"></i>
+      <span>Открыть демо-профиль</span>
+    </button>
+    <div class="text-[11px] text-gray-500">Steam-вход доступен на серверном стенде. В preview пароль не запрашивается.</div>
+    <a class="login-back" href="./">← На главную</a>
+  </main>
+
+  <script src="./assets/preview.js" defer></script>
+  <script src="./assets/app.js" defer></script>
+  <script src="./assets/router.js" defer></script>
+</body>
+</html>
